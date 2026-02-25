@@ -1,0 +1,123 @@
+replicaCount: 1
+nameOverride: ""
+fullnameOverride: ""
+
+image:
+  repository: voe-power-outages
+  tag: "0.1.0"
+  pullPolicy: IfNotPresent
+
+serviceAccount:
+  create: true
+  name: ""
+
+service:
+  type: ClusterIP
+  port: 8000
+
+persistence:
+  enabled: true
+  accessModes:
+    - ReadWriteOnce
+  size: 1Gi
+  storageClassName: ""
+  mountPath: /data
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 192Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
+securityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 1000
+  readOnlyRootFilesystem: true
+  allowPrivilegeEscalation: false
+
+app:
+  regionId: Volyn
+  logLevel: INFO
+  databasePath: /data/voe.db
+  retentionDays: 30
+  enableScheduler: true
+  pollIntervalMinutes: 30
+  pollAlignClock: true
+
+provider:
+  kind: volyn_json
+  metadataUrl: "https://api-voe-poweron.inneti.net/api/options"
+  optionKey: pw_gpv_image_today
+  imageUrlPath: ""
+  updatedAtPath: ""
+  regionPath: ""
+  timeoutSeconds: 20
+
+parser:
+  expectedRows: 12
+  expectedHours: 24
+  redRatioThreshold: 0.22
+  yellowRatioThreshold: 0.24
+  halfBlockRatioThreshold: 0.35
+  darkRatioThreshold: 0.20
+  blueHueMin: 90
+  blueHueMax: 125
+  blueRatioThreshold: 0.40
+  blueOffSaturationThreshold: 90
+  blueOffValueThreshold: 185
+
+probes:
+  liveness:
+    initialDelaySeconds: 10
+    periodSeconds: 15
+    timeoutSeconds: 2
+  readiness:
+    initialDelaySeconds: 5
+    periodSeconds: 10
+    timeoutSeconds: 2
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts:
+    - host: voe-power-outages.local
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+
+gatewayApi:
+  enabled: false
+  parentRefs:
+    - name: default-gateway
+      namespace: default
+  hostnames:
+    - voe-power-outages.local
+  matches:
+    - path:
+        type: PathPrefix
+        value: /
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 2
+  targetCPUUtilizationPercentage: 70
+
+podDisruptionBudget:
+  enabled: false
+  minAvailable: 1
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+extraEnv: []
+
+existingSecretName: ""
+secretData: {}

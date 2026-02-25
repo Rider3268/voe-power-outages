@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["image", "service", "app", "provider", "parser"],
+  "properties": {
+    "replicaCount": {"type": "integer", "minimum": 1},
+    "image": {
+      "type": "object",
+      "required": ["repository", "tag", "pullPolicy"],
+      "properties": {
+        "repository": {"type": "string", "minLength": 1},
+        "tag": {"type": "string", "minLength": 1},
+        "pullPolicy": {"type": "string", "enum": ["Always", "IfNotPresent", "Never"]}
+      }
+    },
+    "service": {
+      "type": "object",
+      "required": ["type", "port"],
+      "properties": {
+        "type": {"type": "string", "enum": ["ClusterIP", "NodePort", "LoadBalancer"]},
+        "port": {"type": "integer", "minimum": 1, "maximum": 65535}
+      }
+    },
+    "persistence": {
+      "type": "object",
+      "required": ["enabled", "size", "mountPath"],
+      "properties": {
+        "enabled": {"type": "boolean"},
+        "size": {"type": "string", "minLength": 1},
+        "mountPath": {"type": "string", "minLength": 1}
+      }
+    },
+    "app": {
+      "type": "object",
+      "required": ["regionId", "databasePath", "retentionDays", "pollIntervalMinutes"],
+      "properties": {
+        "regionId": {"type": "string", "minLength": 1},
+        "databasePath": {"type": "string", "minLength": 1},
+        "retentionDays": {"type": "integer", "minimum": 1},
+        "pollIntervalMinutes": {"type": "integer", "minimum": 1},
+        "enableScheduler": {"type": "boolean"},
+        "pollAlignClock": {"type": "boolean"}
+      }
+    },
+    "provider": {
+      "type": "object",
+      "required": ["kind", "metadataUrl"],
+      "properties": {
+        "kind": {"type": "string", "minLength": 1},
+        "metadataUrl": {"type": "string"},
+        "optionKey": {"type": "string"},
+        "imageUrlPath": {"type": "string"},
+        "updatedAtPath": {"type": "string"},
+        "regionPath": {"type": "string"},
+        "timeoutSeconds": {"type": "integer", "minimum": 1}
+      }
+    },
+    "parser": {
+      "type": "object",
+      "required": ["expectedRows", "expectedHours"],
+      "properties": {
+        "expectedRows": {"type": "integer", "minimum": 1},
+        "expectedHours": {"type": "integer", "minimum": 1},
+        "redRatioThreshold": {"type": "number", "minimum": 0, "maximum": 1},
+        "yellowRatioThreshold": {"type": "number", "minimum": 0, "maximum": 1},
+        "halfBlockRatioThreshold": {"type": "number", "minimum": 0, "maximum": 1},
+        "darkRatioThreshold": {"type": "number", "minimum": 0, "maximum": 1}
+      }
+    },
+    "ingress": {
+      "type": "object",
+      "properties": {
+        "enabled": {"type": "boolean"}
+      }
+    },
+    "gatewayApi": {
+      "type": "object",
+      "properties": {
+        "enabled": {"type": "boolean"}
+      }
+    },
+    "autoscaling": {
+      "type": "object",
+      "properties": {
+        "enabled": {"type": "boolean"}
+      }
+    }
+  }
+}

@@ -1,0 +1,10 @@
+1. Access service internally:
+   kubectl -n {{ .Release.Namespace }} port-forward svc/{{ include "voe-power-outages.fullname" . }} {{ .Values.service.port }}:{{ .Values.service.port }}
+
+2. Health endpoints:
+   /healthz
+   /readyz
+
+3. Scheduler is {{ if .Values.app.enableScheduler }}enabled{{ else }}disabled{{ end }}.
+4. Ingress is {{ if .Values.ingress.enabled }}enabled{{ else }}disabled{{ end }}.
+5. Gateway API route is {{ if .Values.gatewayApi.enabled }}enabled{{ else }}disabled{{ end }}.

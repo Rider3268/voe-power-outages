@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "voe-power-outages.fullname" . }}
+  labels:
+    {{- include "voe-power-outages.labels" . | nindent 4 }}
+data:
+  APP_HOST: "0.0.0.0"
+  APP_PORT: {{ .Values.service.port | quote }}
+  LOG_LEVEL: {{ .Values.app.logLevel | quote }}
+  REGION_ID: {{ .Values.app.regionId | quote }}
+  DATABASE_PATH: {{ .Values.app.databasePath | quote }}
+  RETENTION_DAYS: {{ .Values.app.retentionDays | quote }}
+  ENABLE_SCHEDULER: {{ .Values.app.enableScheduler | quote }}
+  POLL_INTERVAL_MINUTES: {{ .Values.app.pollIntervalMinutes | quote }}
+  POLL_ALIGN_CLOCK: {{ .Values.app.pollAlignClock | quote }}
+
+  PROVIDER_KIND: {{ .Values.provider.kind | quote }}
+  PROVIDER_METADATA_URL: {{ .Values.provider.metadataUrl | quote }}
+  PROVIDER_OPTION_KEY: {{ .Values.provider.optionKey | quote }}
+  PROVIDER_IMAGE_URL_PATH: {{ .Values.provider.imageUrlPath | quote }}
+  PROVIDER_UPDATED_AT_PATH: {{ .Values.provider.updatedAtPath | quote }}
+  PROVIDER_REGION_PATH: {{ .Values.provider.regionPath | quote }}
+  PROVIDER_TIMEOUT_SECONDS: {{ .Values.provider.timeoutSeconds | quote }}
+
+  PARSER_EXPECTED_ROWS: {{ .Values.parser.expectedRows | quote }}
+  PARSER_EXPECTED_HOURS: {{ .Values.parser.expectedHours | quote }}
+  PARSER_RED_RATIO_THRESHOLD: {{ .Values.parser.redRatioThreshold | quote }}
+  PARSER_YELLOW_RATIO_THRESHOLD: {{ .Values.parser.yellowRatioThreshold | quote }}
+  PARSER_HALF_BLOCK_RATIO_THRESHOLD: {{ .Values.parser.halfBlockRatioThreshold | quote }}
+  PARSER_DARK_RATIO_THRESHOLD: {{ .Values.parser.darkRatioThreshold | quote }}
+  PARSER_BLUE_HUE_MIN: {{ .Values.parser.blueHueMin | quote }}
+  PARSER_BLUE_HUE_MAX: {{ .Values.parser.blueHueMax | quote }}
+  PARSER_BLUE_RATIO_THRESHOLD: {{ .Values.parser.blueRatioThreshold | quote }}
+  PARSER_BLUE_OFF_SATURATION_THRESHOLD: {{ .Values.parser.blueOffSaturationThreshold | quote }}
+  PARSER_BLUE_OFF_VALUE_THRESHOLD: {{ .Values.parser.blueOffValueThreshold | quote }}

@@ -1,0 +1,12 @@
+provider:
+  metadataUrl: "https://api-voe-poweron.inneti.net/api/options"
+  optionKey: "pw_gpv_image_today"
+  imageUrlPath: ""
+  updatedAtPath: ""
+  regionPath: ""
+
+ingress:
+  enabled: false
+
+gatewayApi:
+  enabled: false

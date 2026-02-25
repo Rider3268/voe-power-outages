@@ -1,0 +1,1 @@
+"""voe-power-outages package."""
