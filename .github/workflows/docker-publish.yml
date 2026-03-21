@@ -32,4 +32,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ghcr.io/${{ github.actor | toLower }}/voe-power-outages:latest
+          tags: ghcr.io/rider3268/voe-power-outages:latest
