@@ -25,6 +25,14 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      # 3. Enable QEMU for cross-platform build
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v4
+
+      # 4. Setup Buildx builder
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
       # 3. Build and push Docker image
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
@@ -32,4 +40,5 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
+          platforms: linux/amd64,linux/arm64
           tags: ghcr.io/rider3268/voe-power-outages:latest
